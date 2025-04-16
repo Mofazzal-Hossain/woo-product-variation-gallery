@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
         if (!selectedColor) return;
         // You can optionally check the attribute name or value here if needed
         console.log('Selected variation ID:', variationId);
-    
+        $('.variation-gallery-loader').show();
         $.ajax({
             url: woocommerce_params.ajax_url,
             method: 'POST',
@@ -115,6 +115,7 @@ jQuery(document).ready(function ($) {
                 action: 'get_variation_gallery',
                 variation_id: variationId
             },
+          
             success: function (response) {
                 if (response.success && response.data.image_urls.length > 0) {
                     var imageHtml = '';
@@ -135,6 +136,14 @@ jQuery(document).ready(function ($) {
                             </a>
                         </div>
                     `;
+
+
+                    imageHtml += `
+                        <div class="variation-gallery-loader" style="display:none;">
+                            <div class="spinner"></div>
+                        </div>
+                    `;
+
 
                     // Thumbnails
                     imageHtml += '<div class="woocommerce-product-gallery__thumbs">';
@@ -176,6 +185,10 @@ jQuery(document).ready(function ($) {
                         $(this).addClass('active');
                     });
                 }
+            },
+            complete: function () {
+                // Hide loader after AJAX completes
+                $('.variation-gallery-loader').hide();
             }
         });
     });
