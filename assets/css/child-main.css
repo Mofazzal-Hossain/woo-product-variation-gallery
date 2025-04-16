@@ -168,10 +168,11 @@
     opacity: 1;
     border: 2px solid transparent;
     padding: 3px;
+    cursor: pointer;
 }
 
 .woocommerce div.product div.woocommerce-product-gallery.images .flex-control-thumbs li img.flex-active,
-.woocommerce-product-gallery__thumbs .product-thumbs .active img {
+.woocommerce-product-gallery__thumbs .product-thumbs img.active  {
     border-color: #B4B4B4
 }
 

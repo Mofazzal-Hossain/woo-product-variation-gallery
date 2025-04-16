@@ -151,37 +151,35 @@ jQuery(document).ready(function ($) {
                         const isActive = index === 0 ? 'active' : '';
                         imageHtml += `
                             <div class="product-thumbs">
-                                <a href="${src}" class="${isActive}">
-                                    <img src="${src}" />
-                                </a>
+                                <img src="${src}" class="${isActive}" />
                             </div>
                         `;
                     });
                     imageHtml += '</div>';
 
                     $galleryWrapper.append(imageHtml);
-                    $('[data-fancybox="gallery"]').fancybox({
-                        loop: true,
-                        buttons: [
-                            "zoom",
-                            "slideShow",
-                            "fullScreen",
-                            "close"
-                        ],
-                    });
+                    // $('[data-fancybox="gallery"]').fancybox({
+                    //     loop: true,
+                    //     buttons: [
+                    //         "zoom",
+                    //         "slideShow",
+                    //         "fullScreen",
+                    //         "close"
+                    //     ],
+                    // });
 
                     // Delegate thumb click
-                    $galleryWrapper.on('click', '.woocommerce-product-gallery__thumbs a', function (e) {
+                    $galleryWrapper.on('click', '.woocommerce-product-gallery__thumbs img', function (e) {
                         e.preventDefault();
 
-                        var newSrc = $(this).attr('href');
+                        var newSrc = $(this).attr('src');
 
                         // Update featured image src and href
                         $galleryWrapper.find('.woocommerce-product-gallery__image a').attr('href', newSrc);
                         $galleryWrapper.find('.woocommerce-product-gallery__image img').attr('src', newSrc);
 
                         // Update active class
-                        $galleryWrapper.find('.woocommerce-product-gallery__thumbs a').removeClass('active');
+                        $galleryWrapper.find('.woocommerce-product-gallery__thumbs img').removeClass('active');
                         $(this).addClass('active');
                     });
                 }
