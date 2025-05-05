@@ -56,17 +56,22 @@ do_action('woocommerce_before_add_to_cart_form'); ?>
 							}
 							if ($attribute_name === 'pa_color') {
 								$terms = wc_get_product_terms($product->get_id(), $attribute_name, array('fields' => 'all'));
-
 								echo '<div class="color-swatches-wrapper" data-attribute_name="attribute_' . esc_attr(sanitize_title($attribute_name)) . '">';
 								foreach ($terms as $term) {
 									if (in_array($term->slug, $options)) {
+										error_log(print_r($options, true));
 										$color = get_term_meta($term->term_id, 'color_value', true);
+										$description = term_description($term->term_id, $attribute_name);
 										echo '<div class="color-swatch-option">';
 										echo '<input type="radio" name="' . esc_attr($attribute_name) . '" id="' . esc_attr($attribute_name . '_' . $term->slug) . '" value="' . esc_attr($term->slug) . '" disabled="disabled">';
 										echo '<label for="' . esc_attr($attribute_name . '_' . $term->slug) . '" style="background-color:' . esc_attr($color) . '" title="' . esc_attr($term->name) . '"></label>';
+										if ($description) {
+											echo '<div class="color-description" id="desc_' . esc_attr($term->slug) . '" style="display:none;">' . wp_kses_post($description) . '</div>';
+										}
 										echo '</div>';
 									}
 								}
+								
 								echo '</div>';
 
 								// Add a hidden select element for WooCommerce's JS

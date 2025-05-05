@@ -141,19 +141,19 @@ add_filter('woocommerce_find_matching_product_variation', function ($match, $dat
 add_action('woocommerce_variation_options', 'add_variation_gallery_field', 10, 3);
 function add_variation_gallery_field($loop, $variation_data, $variation)
 {
-    $image_id = get_post_meta($variation->ID, '_variation_image_gallery', true);
-?>
+    $image_id_string = get_post_meta($variation->ID, '_variation_image_gallery', true);
+    ?>
     <div class="form-row form-row-full variation-gallery-wrapper">
         <label><?php _e('Variation Gallery Images', 'woocommerce'); ?></label>
         <div class="variation-gallery-container">
             <ul class="variation-gallery-images">
                 <?php
-                if ($image_id) {
-                    $image_ids = explode(',', $image_id);
-                    foreach ($image_ids as $image_id) {
-                        $image = wp_get_attachment_image_src($image_id);
+                if ($image_id_string) {
+                    $image_ids = explode(',', $image_id_string);
+                    foreach ($image_ids as $img_id) {
+                        $image = wp_get_attachment_image_src($img_id);
                         if ($image) {
-                            echo '<li class="image" data-attachment_id="' . esc_attr($image_id) . '">
+                            echo '<li class="image" data-attachment_id="' . esc_attr($img_id) . '">
                                 <img src="' . esc_url($image[0]) . '" />
                                 <a href="#" class="delete remove-variation-gallery-image">×</a>
                             </li>';
@@ -162,24 +162,23 @@ function add_variation_gallery_field($loop, $variation_data, $variation)
                 }
                 ?>
             </ul>
-            <input type="hidden" class="variation-gallery-ids" name="variation_image_gallery[<?php echo $variation->ID; ?>]" value="<?php echo esc_attr($image_id); ?>" />
+            <input type="hidden" class="variation-gallery-ids" name="variation_image_gallery[<?php echo $loop; ?>]" value="<?php echo esc_attr($image_id_string); ?>" />
             <button type="button" class="upload-variation-gallery button"><?php _e('Add images', 'woocommerce'); ?></button>
             <button type="button" class="clear-variation-gallery button"><?php _e('Clear', 'woocommerce'); ?></button>
         </div>
     </div>
-<?php
+    <?php
 }
 
 // Save variation gallery images
 add_action('woocommerce_save_product_variation', 'save_variation_gallery', 10, 2);
 function save_variation_gallery($variation_id, $loop)
 {
-    if (isset($_POST['variation_image_gallery'][$variation_id])) {
-        update_post_meta($variation_id, '_variation_image_gallery', sanitize_text_field($_POST['variation_image_gallery'][$variation_id]));
-    } else {
-        delete_post_meta($variation_id, '_variation_image_gallery');
-    }
+    if (isset($_POST['variation_image_gallery'][$loop])) {
+        update_post_meta($variation_id, '_variation_image_gallery', sanitize_text_field($_POST['variation_image_gallery'][$loop]));
+    } 
 }
+
 
 // Add AJAX handler for getting variation galleries
 add_action('wp_ajax_get_variation_gallery', 'get_variation_gallery');
@@ -240,6 +239,7 @@ function mooqs_enquiry_checkout()
                 <table class="mooqs-cart-items">
                     <tbody>
                         <?php foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) :
+
 
                             $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
                             $product_id = apply_filters('woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key);
@@ -320,6 +320,21 @@ function mooqs_enquiry_checkout()
                                             <?php echo esc_html($cart_item['quantity']); ?>
                                         </div>
                                     </td>
+
+                                    <!-- Price -->
+                                    <?php if(is_user_logged_in()): ?>
+                                        <td class="product-price">
+                                            <h3 class="price-label td-table">
+                                                <?php echo esc_html__('Price', 'woocommerce'); ?>
+                                            </h3>
+                                            <div class="price-value">
+                                                <span class="currency-symbol">
+                                                    <?php echo esc_html(get_woocommerce_currency_symbol()); ?>
+                                                </span>
+                                                <?php echo esc_html($cart_item['line_total']); ?>
+                                            </div>
+                                        </td>    
+                                    <?php endif; ?>
 
                                     <!-- Remove -->
                                     <td class="product-remove">
@@ -621,3 +636,15 @@ add_filter('wp_prepare_attachment_for_js', function($response, $attachment, $met
     }
     return $response;
 }, 10, 3);
+
+
+// Hide all WooCommerce prices for non-logged-in users
+add_filter('woocommerce_get_price_html', 'custom_hide_price_for_non_logged_in_users', 10, 2);
+add_filter('woocommerce_variable_price_html', 'custom_hide_price_for_non_logged_in_users', 10, 2);
+
+function custom_hide_price_for_non_logged_in_users($price, $product) {
+    if (!is_user_logged_in()) {
+        return;
+    }
+    return $price;
+}

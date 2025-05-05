@@ -15,7 +15,7 @@ jQuery(document).ready(function ($) {
     // Run when size selection changes
     $('select[name="attribute_pa_product-size"]').on('change', function () {
         updateColorSwatchesState();
-
+        $('.color-description').hide();
         // Clear color selection when size changes
         $('.color-swatches-wrapper input[type="radio"]').prop('checked', false);
         $('select[name="attribute_pa_color"]').val('');
@@ -36,10 +36,10 @@ jQuery(document).ready(function ($) {
         var attributeTitle = $(this).parent().find('label').attr('title');
 
         $(".variation label[for='pa_color']").html("COLOR: " + '<span>' + attributeTitle + '</span>');
-
-        // Update the hidden select
         $('select[name="' + attributeName.replace('attribute_', '') + '"]').val(value).trigger('change');
 
+        $('.color-description').hide();
+        $('#desc_' + value).show();
         // Trigger WooCommerce's variation detection
         $('form.variations_form').trigger('woocommerce_variation_select_change');
         $('form.variations_form').trigger('check_variations');
@@ -56,15 +56,14 @@ jQuery(document).ready(function ($) {
         $('form.variations_form').trigger('woocommerce_variation_select_change');
         $('form.variations_form').trigger('check_variations');
         $(".variation label[for='pa_color']").html("COLOR");
+        $('.color-description').hide();
     });
 
     $('.qty-plus, .qty-minus').on('click', function (e) {
 
-        console.log('event');
         // Get the current quantity input
         var qtyInput = $(".woocommerce-quantity-wrapper input.qty");
         var currentVal = parseFloat(qtyInput.val());
-        console.log(currentVal);
         var max = parseFloat(qtyInput.attr('max'));
         var min = parseFloat(qtyInput.attr('min'));
         var step = parseFloat(qtyInput.attr('step')) || 1;
