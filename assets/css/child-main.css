@@ -104,6 +104,7 @@
     gap: 8px;
     align-items: center;
     margin-right: 15px;
+    margin-bottom: 10px;
 }
 
 .quantity-input-wrapper .qty-minus,
@@ -154,7 +155,7 @@
     zoom: 1;
     margin: 0;
     padding: 0;
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -184,24 +185,19 @@
 
 .woocommerce .label label,
 .woocommerce .size-description {
-    font-weight: 600;
+    font-weight: 500!important;
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: -0.18px;
     line-height: 1.4;
     font-family: "Montserrat", Sans-serif;
-    color: #A2A2A2;
-
-}
-
-.woocommerce .label label[for="pa_product-size"] {
     color: #ffffff;
+
 }
 
 .woocommerce .label label[for="pa_color"] {
     height: 40px;
     margin-bottom: 12px;
-    line-height: 40px;
 }
 
 .woocommerce .label label[for="quantity"] {
@@ -300,13 +296,13 @@ span.woocommerce-Price-amount.amount {
 }
 
 
-.woocommerce .woocommerce-quantity-wrapper .product-info {
-    margin-top: 40px;
+.woocommerce .product-info {
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.woocommerce .woocommerce-quantity-wrapper .product-info p,
-.woocommerce .woocommerce-quantity-wrapper .product-info a,
+.woocommerce .product-info p,
+.woocommerce .product-info a,
 .woocommerce .single_variation_wrap p {
     margin: 0;
     font-family: "Montserrat", Sans-serif;
@@ -324,11 +320,11 @@ span.woocommerce-Price-amount.amount {
     font-weight: 600;
 }
 
-.woocommerce .woocommerce-quantity-wrapper .product-info a {
+.woocommerce .product-info a {
     text-decoration: underline;
 }
 
-.woocommerce .woocommerce-quantity-wrapper .product-info a:hover {
+.woocommerce .product-info a:hover {
     text-decoration: none;
 }
 
@@ -719,15 +715,15 @@ body.page-inquiry-checkout #payment {
 
 
 
-    .woocommerce .woocommerce-quantity-wrapper .product-info p,
-    .woocommerce .woocommerce-quantity-wrapper .product-info a,
+    .woocommerce .product-info p,
+    .woocommerce .product-info a,
     .woocommerce .single_variation_wrap p,
     .woocommerce .label label,
     .woocommerce .size-description {
         font-size: 16px;
     }
 
-    .woocommerce .woocommerce-quantity-wrapper .product-info {
+    .woocommerce .product-info {
         margin-top: 30px;
     }
 

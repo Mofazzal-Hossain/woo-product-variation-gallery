@@ -35,10 +35,7 @@ global $product;
 			?>
 			<button type="button" class="qty-plus">+</button>
 		</div>
-		<div class="product-info d-flex">
-			<p><?php echo esc_html_e('If you need custom Product,', 'woocommerce'); ?></p>
-			<a href="<?php echo esc_url(home_url('/contact-us')); ?>"><?php echo esc_html_e('contact us.', 'woocommerce'); ?></a>
-		</div>
+		
 	</div>
 
 	<?php
@@ -48,7 +45,10 @@ global $product;
 	<button type="submit" data-product-id="<?php echo absint($product->get_id()); ?>" id="woo-add-to-cart" class="single_add_to_cart_button button alt<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>"><?php echo esc_html($product->single_add_to_cart_text()); ?></button>
 
 	<?php do_action('woocommerce_after_add_to_cart_button'); ?>
-
+	<div class="product-info d-flex">
+		<p><?php echo esc_html_e('If you need custom Product,', 'woocommerce'); ?></p>
+		<a href="<?php echo esc_url(home_url('/contact-us')); ?>"><?php echo esc_html_e('contact us.', 'woocommerce'); ?></a>
+	</div>
 	<input type="hidden" name="add-to-cart" value="<?php echo absint($product->get_id()); ?>" />
 	<input type="hidden" name="product_id" value="<?php echo absint($product->get_id()); ?>" />
 	<input type="hidden" name="variation_id" class="variation_id" value="0" />
